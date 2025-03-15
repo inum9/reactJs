@@ -19,15 +19,47 @@ export class AuthService {
             const userAccount=  await this.Account.create(ID.unique(),email,password,name);
 
             if(userAccount){
-              return userAccount;
+             return this.loginUser({email,password});
             }else{
-              return null;
+              return userAccount;
             }
         } catch (error) {
           console.log(error);
           
         }
       };
+      //this is the function that will be used to login the user
+      async loginUser({email,password}){
+        try {
+          await this.Account.createEmailPasswordSession(email,password);
+
+          
+        } catch (error) {
+          console.log(error);
+          
+        }
+      };
+      //this is the function that will be used to get the current  user
+      async getCurrentUser(){
+        try {
+
+         const user= await this.Account.get();
+         return user;
+        } catch (error) {
+          console.log(error);
+          
+        }
+        return null;
+      }
+        //this is the function that will be used to logout the user
+        async logoutUser(){
+          try {
+            await this.Account.deleteSessions();
+          } catch (error) {
+            console.log(error);
+            
+          }
+        }
 }
 
 //this is the class that will be used to authenticate the user
