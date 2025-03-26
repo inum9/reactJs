@@ -122,8 +122,18 @@ async deleteFile(fileId){
     return false;
 }
 
-
+getFilePreview(fileId){
+    return this.bucket.getFilePreview(
+        config.appwriteBucketId,
+        fileId
+    )
 }
+}
+
+
+
+
+
 
 
 const databaseService = new DatabaseService();
